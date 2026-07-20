@@ -1,6 +1,13 @@
 # macOS
 .DS_Store
 
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
 # App-generated state (not user config)
 .mono/
 darktable/
@@ -18,16 +25,16 @@ raycast/
 # Backup configs
 nvim.bak/
 
-# Downloaded themes/plugins (re-fetched automatically)
-alacritty/themes/
-btop/themes/
+# Downloaded themes/plugins (re-fetched automatically) — match at any depth (macos/, windows/)
+**/alacritty/themes/
+**/btop/themes/
 tmux/plugins/
 opencode/node_modules/
 
-# Neovim generated files
-nvim/lazy-lock.json
-nvim/.luarc.json
-nvim/.neoconf.json
+# Neovim generated files (match under macos/ and windows/)
+**/nvim/lazy-lock.json
+**/nvim/.luarc.json
+**/nvim/.neoconf.json
 
 # opencode deps
 opencode/bun.lock

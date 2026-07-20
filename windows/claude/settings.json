@@ -1,0 +1,9 @@
+{
+  "model": "opus[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "pwsh -NoProfile -File \"%USERPROFILE%\\.claude\\statusline-command.ps1\""
+  },
+  "effortLevel": "xhigh",
+  "tui": "fullscreen"
+}

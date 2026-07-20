@@ -1,0 +1,37 @@
+{
+  "buckets": [
+    { "Name": "main", "Source": "https://github.com/ScoopInstaller/Main" },
+    { "Name": "extras", "Source": "https://github.com/ScoopInstaller/Extras" },
+    { "Name": "nerd-fonts", "Source": "https://github.com/matthewjberger/scoop-nerd-fonts" },
+    { "Name": "versions", "Source": "https://github.com/ScoopInstaller/Versions" }
+  ],
+  "apps": [
+    { "Source": "main", "Name": "git" },
+    { "Source": "main", "Name": "7zip" },
+    { "Source": "main", "Name": "ripgrep" },
+    { "Source": "main", "Name": "fzf" },
+    { "Source": "main", "Name": "fd" },
+    { "Source": "main", "Name": "lsd" },
+    { "Source": "main", "Name": "starship" },
+    { "Source": "main", "Name": "neovim" },
+    { "Source": "main", "Name": "gh" },
+    { "Source": "main", "Name": "fastfetch" },
+    { "Source": "main", "Name": "uv" },
+    { "Source": "main", "Name": "tree-sitter" },
+    { "Source": "main", "Name": "zellij" },
+    { "Source": "main", "Name": "luarocks" },
+    { "Source": "main", "Name": "zoxide" },
+    { "Source": "main", "Name": "python" },
+    { "Source": "main", "Name": "zig" },
+    { "Source": "main", "Name": "nodejs-lts" },
+    { "Source": "extras", "Name": "lazygit" },
+    { "Source": "extras", "Name": "btop-lhm" },
+    { "Source": "extras", "Name": "glazewm" },
+    { "Source": "extras", "Name": "alacritty" },
+    { "Source": "extras", "Name": "win32yank" },
+    { "Source": "extras", "Name": "bitwarden-cli" },
+    { "Source": "nerd-fonts", "Name": "JetBrainsMono-NF" },
+    { "Source": "nerd-fonts", "Name": "JetBrainsMono-NF-Mono" },
+    { "Source": "nerd-fonts", "Name": "Iosevka-NF" }
+  ]
+}

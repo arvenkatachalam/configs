@@ -1,0 +1,24 @@
+{
+  "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+  "Sources": [
+    {
+      "SourceDetails": {
+        "Argument": "https://cdn.winget.microsoft.com/cache",
+        "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+        "Name": "winget",
+        "Type": "Microsoft.PreIndexed.Package"
+      },
+      "Packages": [
+        { "PackageIdentifier": "Microsoft.WindowsTerminal" },
+        { "PackageIdentifier": "Microsoft.PowerShell" },
+        { "PackageIdentifier": "Microsoft.VisualStudioCode" },
+        { "PackageIdentifier": "Anysphere.Cursor" },
+        { "PackageIdentifier": "Anthropic.Claude" },
+        { "PackageIdentifier": "sxyazi.yazi" },
+        { "PackageIdentifier": "calibre.calibre" },
+        { "PackageIdentifier": "Doist.Todoist" }
+      ]
+    }
+  ],
+  "WinGetVersion": "1.8.0"
+}

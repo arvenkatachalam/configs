@@ -1,0 +1,26 @@
+return {
+  "coder/claudecode.nvim",
+  cmd = {
+    "ClaudeCode",
+    "ClaudeCodeFocus",
+    "ClaudeCodeSend",
+    "ClaudeCodeAdd",
+    "ClaudeCodeTreeAdd",
+    "ClaudeCodeDiffAccept",
+    "ClaudeCodeDiffDeny",
+    "ClaudeCodeSelectModel",
+  },
+  keys = {
+    { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude Code" },
+    { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude Code" },
+    { "<leader>as", "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude Code", mode = "v" },
+    { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add buffer to Claude Code" },
+    { "<leader>at", "<cmd>ClaudeCodeTreeAdd<cr>", desc = "Add file from tree to Claude Code" },
+    { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude Code" },
+    { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude Code" },
+    { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+    { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+    { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+  },
+  opts = {},
+}

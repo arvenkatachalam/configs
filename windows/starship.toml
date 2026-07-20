@@ -1,0 +1,83 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Added spaces and explicit hex codes to the format string
+format = """
+[ $os$username ](bg:#1f2335 fg:#7aa2f7)\
+[](bg:#24283b fg:#1f2335)\
+$directory\
+[](fg:#24283b bg:#bb9af7)\
+$git_branch\
+$git_status\
+[](fg:#bb9af7 bg:#7aa2f7)\
+$rust\
+$golang\
+$nodejs\
+$python\
+[](fg:#7aa2f7 bg:#2ac3de)\
+$docker_context\
+[](fg:#2ac3de bg:#1f2335)\
+$time\
+[ ](bg: #1f2335 )\
+$line_break$character"""
+
+[os]
+disabled = false
+style = "bg:#1f2335 fg:#7aa2f7"
+format = "[$symbol]($style)"
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+Arch = " "
+Debian = " "
+Fedora = " "
+Linux = " "
+Macos = " "
+NixOS = " "
+Ubuntu = " "
+Windows = "󰍲 "
+
+[username]
+show_always = true
+style_user = "bg:#1f2335 fg:#7aa2f7"
+style_root = "bg:#1f2335 fg:#f7768e"
+format = '[$user]($style)'
+
+[directory]
+style = "bg:#24283b fg:#7aa2f7"
+format = "[ $path ]($style)"
+truncation_length = 3
+
+[git_branch]
+symbol = ""
+style = "bg:#bb9af7 fg:#1f2335"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:#bb9af7 fg:#1f2335"
+format = '[$all_status$ahead_behind]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:#7aa2f7 fg:#1f2335"
+format = '[ $symbol ($version) ]($style)'
+
+[rust]
+symbol = ""
+style = "bg:#7aa2f7 fg:#1f2335"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+symbol = ""
+style = "bg:#7aa2f7 fg:#1f2335"
+format = '[ $symbol ($version) ]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:#1f2335 fg:#00ff00"
+format = '[ 󱑒 $time ]($style)'
+
+[character]
+success_symbol = "[ ❯](bold #9ece6a) "
+error_symbol = "[ ❯](bold #f7768e) "

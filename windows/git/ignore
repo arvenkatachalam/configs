@@ -1,0 +1,11 @@
+# Global gitignore (core.excludesfile) — Windows
+# Deploy target: ~/.config/git/ignore  (set via `git config --global core.excludesfile`)
+
+**/.claude/settings.local.json
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk

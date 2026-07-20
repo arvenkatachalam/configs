@@ -1,39 +1,59 @@
 # .dotfiles
 
-macOS development environment configuration files, managed from `~/.config`.
+Personal development environment configuration files for **macOS** and **Windows**.
+
+The repo is split by operating system:
+
+- **[`macos/`](macos)** — the macOS setup (Homebrew, zsh, Ghostty/Alacritty, AeroSpace, …).
+- **[`windows/`](windows)** — a native Windows 11 + PowerShell 7 port (Scoop/winget, Windows
+  Terminal/Alacritty, GlazeWM, …). See **[`windows/MAPPING.md`](windows/MAPPING.md)** for the
+  tool-by-tool macOS→Windows equivalence.
 
 ## Tools
 
-| Tool | Config | Purpose |
-|------|--------|---------|
-| [Neovim](https://neovim.io/) | `nvim/` | Editor (AstroNvim v5) |
-| [Ghostty](https://ghostty.org/) | `ghostty/` | Primary terminal |
-| [Alacritty](https://alacritty.org/) | `alacritty.toml` | Secondary terminal |
-| [AeroSpace](https://github.com/nikitabobko/AeroSpace) | `aerospace/` | Tiling window manager |
-| [Starship](https://starship.rs/) | `starship.toml` | Shell prompt |
-| [Zellij](https://zellij.dev/) | `zellij/` | Terminal multiplexer |
-| [Zsh](https://www.zsh.org/) | `zsh/` | Shell (syntax highlighting theme) |
-| [btop](https://github.com/aristocratos/btop) | `btop/` | System monitor |
-| [cava](https://github.com/karlstav/cava) | `cava/` | Audio visualizer |
-
-A standalone [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) config also lives at `init.lua` in the root.
+| Purpose | macOS | Windows |
+|---|---|---|
+| Shell | zsh + oh-my-zsh | PowerShell 7 (PSReadLine, PSFzf, posh-git) |
+| Prompt | [starship](https://starship.rs/) | starship |
+| Terminal | [Ghostty](https://ghostty.org/) / [Alacritty](https://alacritty.org/) | [Windows Terminal](https://aka.ms/terminal) / Alacritty |
+| Multiplexer | [zellij](https://zellij.dev/) / tmux | zellij (native ≥ 0.44) |
+| Editor | [Neovim](https://neovim.io/) (AstroNvim v6) | Neovim (AstroNvim v6) |
+| Window manager | [AeroSpace](https://github.com/nikitabobko/AeroSpace) | [GlazeWM](https://github.com/glzr-io/glazewm) |
+| Packages | [Homebrew](https://brew.sh/) | [Scoop](https://scoop.sh/) + [winget](https://learn.microsoft.com/windows/package-manager/) |
+| System monitor | [btop](https://github.com/aristocratos/btop) | btop-lhm |
+| File manager | [yazi](https://yazi-rs.github.io/) | yazi |
 
 ## Theme
 
-- **Colorscheme**: Tokyo Night (nvim, starship) / Catppuccin Mocha (terminals, zsh)
+- **Colorscheme**: Tokyo Night (nvim, starship) / Catppuccin Mocha (terminals, shell)
 - **Font**: JetBrainsMono Nerd Font
 
 ## Setup
 
-```sh
-git clone git@github.com:arvenkatachalam/dotfiles.git ~/.config
-brew bundle --file=~/.config/Brewfile
-```
-
-The `Brewfile` includes all Homebrew taps, formulae, casks, and VS Code extensions. To update it after installing/removing packages:
+### macOS
 
 ```sh
-brew bundle dump --file=~/.config/Brewfile --force
+git clone git@github.com:arvenkatachalam/dotfiles.git ~/dotfiles
+brew bundle --file=~/dotfiles/macos/Brewfile
 ```
 
-Neovim plugins install automatically on first launch via lazy.nvim. Mason-managed tools (lua-language-server, stylua, debugpy) install on first open as well.
+The files under `macos/` mirror their live locations (`~/.config/*`, `~/.zshrc`, `~/.claude/*`).
+Regenerate the Brewfile after installing/removing software:
+
+```sh
+brew bundle dump --file=~/dotfiles/macos/Brewfile --force
+```
+
+### Windows
+
+```powershell
+git clone https://github.com/arvenkatachalam/dotfiles.git ~/dotfiles
+cd ~/dotfiles/windows
+pwsh -ExecutionPolicy Bypass -File .\bootstrap.ps1
+pwsh -File .\validate.ps1
+```
+
+`bootstrap.ps1` installs everything (Scoop + winget + modules) and deploys the configs. See
+**[`windows/README.md`](windows/README.md)** for details and the validation checklist.
+
+Neovim plugins install automatically on first launch via lazy.nvim (both OSes).

@@ -4,77 +4,93 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal macOS dotfiles. This repository is checked out at `~/.dotfiles/configs` and is the
-source of truth for configs that each tool reads from its own conventional location
-(`~/.config/*`, `~/.zshrc`, `~/.claude/*`, …). There is no build step and no test suite — a
-change takes effect when the relevant tool re-reads its config or on next launch.
+Personal dotfiles for **macOS** and **Windows**, checked out at `~/.dotfiles/configs`. The repo is
+split into two self-contained, per-OS sets plus repo-level docs at the root:
+
+- **`macos/`** — the macOS setup; source of truth for configs read from `~/.config/*`, `~/.zshrc`,
+  `~/.claude/*`. There is no build/test suite — a change takes effect when the tool re-reads its config.
+- **`windows/`** — a native Windows 11 + PowerShell 7 port (see `windows/MAPPING.md` for the
+  macOS→Windows tool mapping and `windows/README.md` for setup).
+
+Cross-platform configs that are byte-identical (`nvim/`, `starship.toml`, `zellij/`, `git/ignore`)
+are **duplicated** in both `macos/` and `windows/` so each set stands alone — keep them in sync when
+editing either side.
 
 ## Repository Layout & Deployment
 
-- **Packages** — Homebrew taps, formulae, casks, fonts, and VS Code extensions are declared in
-  `Brewfile`. Install everything with `brew bundle --file=Brewfile`. After adding/removing
-  software, regenerate it with `brew bundle dump --file=Brewfile --force`.
-- **`.gitignore`** deliberately excludes app-generated state (`gh/`, `raycast/`, `iterm2/`, …)
-  and auto-refetched assets (`alacritty/themes/`, `btop/themes/`, `nvim/lazy-lock.json`, …).
-  Don't commit these; they are re-created on each machine.
-- **`git/ignore`** is the user's *global* gitignore (`core.excludesfile`) — distinct from this
-  repo's own `.gitignore`.
-- **`**/.claude/settings.local.json`** is git-ignored (machine-local Claude Code settings).
+- **Root (repo meta):** `README.md`, `CLAUDE.md`, `.gitignore`, `.claude/settings.local.json`.
+- **macOS packages** — `macos/Brewfile`. Install: `brew bundle --file=macos/Brewfile`. Regenerate:
+  `brew bundle dump --file=macos/Brewfile --force`.
+- **Windows packages/deploy** — `windows/bootstrap.ps1` (Scoop + winget + modules, then deploys
+  configs). Snapshots: `windows/scoop.json`, `windows/winget.json`.
+- **`.gitignore`** uses `**/`-anchored patterns so generated files are ignored under both `macos/`
+  and `windows/` (e.g. `**/nvim/lazy-lock.json`); it also carries macOS (`.DS_Store`) and Windows
+  (`Thumbs.db`, `Desktop.ini`) noise.
+- **`macos/git/ignore`** / **`windows/git/ignore`** are the user's *global* gitignore
+  (`core.excludesfile`) — distinct from the repo's own `.gitignore`.
 
 ## Two Neovim Configurations
 
-There are two independent Neovim configs in this repo:
-
-1. **`nvim/`** — AstroNvim v6 based config using lazy.nvim. This is the primary active config.
+1. **`macos/nvim/`** (mirrored verbatim at **`windows/nvim/`**) — AstroNvim v6 config using lazy.nvim.
+   The primary active config.
    - Entry: `nvim/init.lua` bootstraps lazy.nvim, then loads `lua/lazy_setup.lua` and `lua/polish.lua`
-   - `lua/lazy_setup.lua` pins AstroNvim to `version = "^6"`, then imports `community` and the `plugins/` folder
-   - Plugin specs go in `lua/plugins/*.lua` as individual files returning LazySpec tables
-   - Leader key: `<Space>`, local leader: `,`
-   - Colorscheme: `tokyonight-night` (set in `lua/plugins/astroui.lua`)
-   - LSP tools managed via Mason (`lua/plugins/mason.lua`): lua-language-server, stylua, debugpy, tree-sitter-cli
-   - Claude Code integration via `lua/plugins/claudecode.lua` with `<leader>a` prefix keybinds
-   - `lua/community.lua` and `lua/polish.lua` are currently disabled (early-return guards). Editing
-     them without removing the `if true then return … end` guard line has no effect.
+   - `lua/lazy_setup.lua` pins AstroNvim to `version = "^6"`, then imports `community` and `plugins/`
+   - Plugin specs are individual files in `lua/plugins/*.lua` returning LazySpec tables
+   - Leader `<Space>`, local leader `,`; colorscheme `tokyonight-night` (`lua/plugins/astroui.lua`)
+   - Mason tools (`lua/plugins/mason.lua`): lua-language-server, stylua, debugpy, tree-sitter-cli
+   - Claude Code integration via `lua/plugins/claudecode.lua` (`<leader>a` prefix)
+   - `lua/community.lua` and `lua/polish.lua` are disabled by an `if true then return … end` guard —
+     editing them without removing that line has no effect.
+   - On Windows, tree-sitter needs a C compiler (`zig`), debugpy needs Python+`pynvim`, and clipboard
+     uses `win32yank` — all installed by `windows/bootstrap.ps1`.
 
-2. **`init.lua`** (root) — Kickstart.nvim based config (standalone, not used by the `nvim/` directory). This is an alternative/backup config using a single-file approach with inline lazy.nvim setup.
+2. **`macos/init.lua`** (root of `macos/`) — a standalone Kickstart.nvim config (backup/alternative,
+   not used by the `nvim/` directory and not deployed on Windows).
 
 ## Lua Formatting & Linting
 
-The `nvim/` Lua is the only code in this repo with tooling:
-
-- **StyLua** (formatter) — config `nvim/.stylua.toml`: 120 column width, 2-space indentation, Unix
-  line endings, `collapse_simple_statement = "Always"`, `call_parentheses = "None"`. Run `stylua nvim/`.
-- **Selene** (linter) — config `nvim/selene.toml` (`std = "neovim"`). Run `selene nvim/`.
-
-StyLua and the Lua language server are also installed inside Neovim via Mason, so editing in nvim
-formats/diagnoses without the CLIs.
+- **StyLua** — config `macos/nvim/.stylua.toml`: 120 col, 2-space, Unix LE,
+  `collapse_simple_statement = "Always"`, `call_parentheses = "None"`. Run `stylua macos/nvim/`.
+- **Selene** — config `macos/nvim/selene.toml` (`std = "neovim"`). Run `selene macos/nvim/`.
 
 ## Terminal & Shell
 
-- **Ghostty** (`ghostty/config`): Primary terminal. Catppuccin Mocha theme, JetBrainsMono Nerd Font Mono, 70% opacity with blur.
-- **Alacritty** (`alacritty.toml`): Secondary terminal. Catppuccin Mocha theme, JetBrainsMono Nerd Font, 70% opacity.
-- **Starship** (`starship.toml`): Shell prompt. Custom Tokyo Night-themed powerline segments with OS, directory, git, language versions, docker, and time modules.
-- **Zsh** (`zshrc`, deployed as `~/.zshrc`): oh-my-zsh + starship. Sets `EDITOR=nvim`,
-  `MANPAGER='nvim +Man!'`, aliases `ls`→`lsd` and `vim`→`nvim`, and sources homebrew
-  zsh-syntax-highlighting/zsh-autosuggestions plus fzf key bindings. `zsh/catppuccin-mocha.zsh` is
-  the syntax-highlighting color theme.
-- **Zellij** (`zellij/config.kdl`): Terminal multiplexer.
-- **btop** (`btop/btop.conf`) and **cava** (`cava/config`): System monitor and audio visualizer.
+macOS (`macos/`):
+- **Ghostty** (`ghostty/config`), **Alacritty** (`alacritty.toml`): Catppuccin Mocha, JetBrainsMono
+  Nerd Font, 70% opacity.
+- **Starship** (`starship.toml`): Tokyo Night powerline prompt.
+- **Zsh** (`zshrc` → `~/.zshrc`): oh-my-zsh + starship; aliases `ls`→`lsd`, `vim`→`nvim`; sources
+  zsh-syntax-highlighting/zsh-autosuggestions + fzf. `zsh/catppuccin-mocha.zsh` is the highlight theme.
+- **Zellij** (`zellij/config.kdl`), **btop**, **cava**.
+
+Windows (`windows/`) — see `windows/MAPPING.md`:
+- **PowerShell 7** profile (`powershell/Microsoft.PowerShell_profile.ps1` → `$PROFILE`) translates
+  `zshrc`: PSReadLine (highlight+autosuggest, Catppuccin colors), PSFzf, posh-git, starship.
+- **Windows Terminal** (`windows-terminal/settings.fragment.json`, **merged** into the live
+  `settings.json` by `merge-wt-settings.ps1` — never overwritten) + **Alacritty** (`alacritty/`).
 
 ## Claude Code Integration
 
-- `claude-settings.json` → deployed as `~/.claude/settings.json`; selects the command status line
-  and default model (`opus`).
-- `statusline-command.sh` → `~/.claude/statusline-command.sh`; renders a Tokyo Night-styled status
-  line (user, cwd, git, model, context %) and accumulates per-session token counts in a temp file
-  keyed by `$PPID`.
-- Inside Neovim, `nvim/lua/plugins/claudecode.lua` wires `coder/claudecode.nvim` under the
-  `<leader>a` prefix (toggle/focus/send/diff-accept/deny, model select, resume/continue).
+- macOS: `macos/claude-settings.json` → `~/.claude/settings.json`; `macos/statusline-command.sh`
+  (bash, Tokyo Night status line, per-session token accumulation).
+- Windows: `windows/claude/settings.json` (statusLine → `pwsh`) + `windows/claude/statusline-command.ps1`
+  (PowerShell rewrite; tokens keyed by `session_id` in TEMP).
+- Neovim: `nvim/lua/plugins/claudecode.lua` wires `coder/claudecode.nvim` under `<leader>a`.
 
 ## Window Management
 
-- **AeroSpace** (`aerospace/aerospace.toml`): Tiling window manager. Alt+hjkl for focus, Alt+Shift+hjkl for move, Alt+1-9 for workspaces. Workspaces 1-5 on main monitor, 6-9 on secondary. Service mode via Alt+Shift+semicolon.
+- macOS: **AeroSpace** (`macos/aerospace/aerospace.toml`) — Alt+hjkl focus, Alt+Shift+hjkl move,
+  Alt+1-9 workspaces, service mode via Alt+Shift+semicolon.
+- Windows: **GlazeWM** (`windows/glazewm/config.yaml`, v3 schema) reproduces those keybinds
+  (alt+h/j/k/l focus, alt+shift+… move, alt+1..9 workspaces, alt+r resize mode, alt+shift+r reload).
+
+## Windows Validation
+
+- `windows/validate.ps1` — post-bootstrap self-check (tools resolve, configs deployed + parse,
+  `$PROFILE` loads, fonts present, statusline renders, `nvim :checkhealth`).
+- Manual GUI smoke-test checklist in `windows/README.md`.
 
 ## Theme Consistency
 
-Tokyo Night (terminals/nvim/starship) and Catppuccin Mocha (terminals/zsh) are used across tools. Font is JetBrainsMono Nerd Font everywhere.
+Tokyo Night (terminals/nvim/starship) and Catppuccin Mocha (terminals/shell) across both OSes.
+Font: JetBrainsMono Nerd Font everywhere.
