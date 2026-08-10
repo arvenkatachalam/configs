@@ -143,3 +143,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # amp
 export PATH="$HOME/.local/bin:$PATH"
+
+# Opt out of OpenSpec anonymous usage telemetry
+export OPENSPEC_TELEMETRY=0
