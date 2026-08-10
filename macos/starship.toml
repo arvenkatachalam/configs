@@ -2,7 +2,7 @@
 
 # Added spaces and explicit hex codes to the format string
 format = """
-[ $os$username ](bg:#1f2335 fg:#7aa2f7)\
+[ $os$username$hostname ](bg:#1f2335 fg:#73daca)\
 [](bg:#24283b fg:#1f2335)\
 $directory\
 [](fg:#24283b bg:#bb9af7)\
@@ -22,7 +22,7 @@ $line_break$character"""
 
 [os]
 disabled = false
-style = "bg:#1f2335 fg:#7aa2f7"
+style = "bg:#1f2335 fg:#73daca"
 format = "[$symbol]($style)"
 
 [os.symbols]
@@ -39,14 +39,23 @@ Windows = "󰍲 "
 
 [username]
 show_always = true
-style_user = "bg:#1f2335 fg:#7aa2f7"
+style_user = "bg:#1f2335 fg:#73daca"
 style_root = "bg:#1f2335 fg:#f7768e"
 format = '[$user]($style)'
+
+[hostname]
+ssh_only = false
+style = "bg:#1f2335 fg:#73daca"
+format = '[@$hostname]($style)'
+trim_at = "."
 
 [directory]
 style = "bg:#24283b fg:#7aa2f7"
 format = "[ $path ]($style)"
-truncation_length = 3
+# Show the full path from ~ : don't collapse to the git repo root, and don't
+# truncate to N trailing components (0 = no truncation).
+truncate_to_repo = false
+truncation_length = 0
 
 [git_branch]
 symbol = ""
