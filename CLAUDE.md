@@ -4,8 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal dotfiles for **macOS** and **Windows**, checked out at `~/.dotfiles/configs`. The repo is
-split into two self-contained, per-OS sets plus repo-level docs at the root:
+Personal dotfiles for **macOS** and **Windows**, checked out at `~/Development/dotfiles` — the
+canonical working copy, and what the deployed symlinks point at. The repo is split into two
+self-contained, per-OS sets plus repo-level docs at the root:
 
 - **`macos/`** — the macOS setup; source of truth for configs read from `~/.config/*`, `~/.zshrc`,
   `~/.claude/*` (deployed as symlinks by `macos/bootstrap.sh`, so edits here are live). There is no
