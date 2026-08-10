@@ -22,7 +22,7 @@ $line_break$character"""
 
 [os]
 disabled = false
-style = "bg:#1f2335 fg:#73daca"
+style = "bg:#1f2335 fg:#7aa2f7"
 format = "[$symbol]($style)"
 
 [os.symbols]
