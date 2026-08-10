@@ -39,18 +39,18 @@ Windows = "󰍲 "
 
 [username]
 show_always = true
-style_user = "bg:#1f2335 fg:#73daca"
+style_user = "bg:#1f2335 fg:#7aa2f7"
 style_root = "bg:#1f2335 fg:#f7768e"
 format = '[$user]($style)'
 
 [hostname]
 ssh_only = false
-style = "bg:#1f2335 fg:#73daca"
+style = "bg:#1f2335 fg:#7aa2f7"
 format = '[@$hostname]($style)'
 trim_at = "."
 
 [directory]
-style = "bg:#24283b fg:#7aa2f7"
+style = "bg:#24283b fg:#73daca"
 format = "[ $path ]($style)"
 # Show the full path from ~ : don't collapse to the git repo root, and don't
 # truncate to N trailing components (0 = no truncation).
