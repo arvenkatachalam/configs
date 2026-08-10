@@ -34,10 +34,15 @@ The repo is split by operating system:
 
 ```sh
 git clone git@github.com:arvenkatachalam/dotfiles.git ~/dotfiles
-brew bundle --file=~/dotfiles/macos/Brewfile
+cd ~/dotfiles/macos
+./bootstrap.sh
 ```
 
-The files under `macos/` mirror their live locations (`~/.config/*`, `~/.zshrc`, `~/.claude/*`).
+`bootstrap.sh` installs everything (`brew bundle` + oh-my-zsh) and symlinks the files under
+`macos/` to their live locations (`~/.config/*`, `~/.zshrc`, `~/.claude/*`) — whatever it would
+overwrite is moved to `~/.dotfiles-backup/<timestamp>/` first. Flags: `--no-casks` (formulae only),
+`--skip-packages` (re-deploy configs only), `--skip-deploy`, `--copy` (copy instead of symlink).
+
 Regenerate the Brewfile after installing/removing software:
 
 ```sh

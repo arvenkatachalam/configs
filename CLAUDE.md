@@ -8,7 +8,8 @@ Personal dotfiles for **macOS** and **Windows**, checked out at `~/.dotfiles/con
 split into two self-contained, per-OS sets plus repo-level docs at the root:
 
 - **`macos/`** — the macOS setup; source of truth for configs read from `~/.config/*`, `~/.zshrc`,
-  `~/.claude/*`. There is no build/test suite — a change takes effect when the tool re-reads its config.
+  `~/.claude/*` (deployed as symlinks by `macos/bootstrap.sh`, so edits here are live). There is no
+  build/test suite — a change takes effect when the tool re-reads its config.
 - **`windows/`** — a native Windows 11 + PowerShell 7 port (see `windows/MAPPING.md` for the
   macOS→Windows tool mapping and `windows/README.md` for setup).
 
@@ -19,7 +20,10 @@ editing either side.
 ## Repository Layout & Deployment
 
 - **Root (repo meta):** `README.md`, `CLAUDE.md`, `.gitignore`, `.claude/settings.local.json`.
-- **macOS packages** — `macos/Brewfile`. Install: `brew bundle --file=macos/Brewfile`. Regenerate:
+- **macOS packages/deploy** — `macos/bootstrap.sh` (`brew bundle` + oh-my-zsh, then symlinks the
+  configs to their live locations; flags `--no-casks`, `--skip-packages`, `--skip-deploy`, `--copy`).
+  It resolves its own path, so the repo can live anywhere, and moves anything it would overwrite to
+  `~/.dotfiles-backup/<timestamp>/`. Packages: `macos/Brewfile`; regenerate with
   `brew bundle dump --file=macos/Brewfile --force`.
 - **Windows packages/deploy** — `windows/bootstrap.ps1` (Scoop + winget + modules, then deploys
   configs). Snapshots: `windows/scoop.json`, `windows/winget.json`.
