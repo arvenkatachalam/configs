@@ -1,4 +1,14 @@
+# SSH forwards $TERM verbatim, but the host may have no terminfo entry for it
+# (Ghostty ships xterm-ghostty inside its own app bundle, not the system db).
+# Without an entry, ZLE can't drive the terminal and zsh-autosuggestions leaves
+# its inline suggestion stranded after the cursor. Fall back to a known entry.
+if ! infocmp "$TERM" >/dev/null 2>&1; then
+  export TERM=xterm-256color
+fi
+
 # Add zsh-autocomplete plugin
+# NOTE: leave this off. It replaces the completion UI wholesale and fights
+# zsh-autosuggestions over the same inline-suggestion real estate.
 #source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 # If you come from bash you might have to change your $PATH.
