@@ -1,5 +1,10 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# Default is 500ms, which the $nodejs/$python/$rust version probes can exceed
+# when the machine is under load or the binary is a cold read (first run after
+# a brew upgrade). Raised so those modules render instead of warning.
+command_timeout = 1000
+
 # Added spaces and explicit hex codes to the format string
 format = """
 [ $os$username$hostname ](bg:#1f2335 fg:#73daca)\
